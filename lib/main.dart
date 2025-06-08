@@ -1,9 +1,18 @@
 import 'package:carousel_test/PlayerCarousel/player_card.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_test/PlayerCarousel/player_card.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-void main() => runApp(const MainApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Nur Landscape erlauben
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeRight,
+    DeviceOrientation.landscapeLeft,
+  ]);
+
+  runApp(MainApp());
+}
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -27,8 +36,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   /// Wir starten auf Seite 1 (Index 1) – so ist **Katzenia** (profil2) direkt in der Mitte,
   /// links Placido und rechts Max.
-  late final PageController _pageController =
-      PageController(initialPage: 1, viewportFraction: 1.6);
+  late final PageController _pageController = PageController(
+    initialPage: 1,
+    viewportFraction: 0.5,
+  );
 
   double _currentPage = 1; // default‑Wert synchron zum initialPage
 
@@ -112,33 +123,44 @@ class _HomePageState extends State<HomePage> {
                         child: Center(
                           child: PlayerCard(
                             playerName: profile['name'] as String,
-                            backgroundColor: profile['backgroundColor'] as Color,
-                            imageProvider: profile['image'] as ImageProvider<Object>,
-                            attributes: profile['attributes'] as List<Map<String, Object>>,
+                            backgroundColor:
+                                profile['backgroundColor'] as Color,
+                            imageProvider:
+                                profile['image'] as ImageProvider<Object>,
+                            attributes:
+                                profile['attributes']
+                                    as List<Map<String, Object>>,
                           ),
                         ),
                       );
                     },
                   ),
                   // Navigation‑Buttons
-                  /*Positioned(
-                    left: 4,
+                  Positioned(
+                    left: 120,
                     child: IconButton(
-                      icon: const Icon(Icons.chevron_left, size: 48),
+                      icon: const Icon(
+                        Icons.arrow_left,
+                        size: 160,
+                        color: Color(0xFFDFAA44),
+                      ),
                       onPressed: () => _goTo(_currentPage.round() - 1),
                     ),
                   ),
                   Positioned(
-                    right: 4,
+                    right: 120,
                     child: IconButton(
-                      icon: const Icon(Icons.chevron_right, size: 48),
+                      icon: const Icon(
+                        Icons.arrow_right,
+                        size: 160,
+                        color: Color(0xFFDFAA44),
+                      ),
                       onPressed: () => _goTo(_currentPage.round() + 1),
                     ),
-                  ),*/
+                  ),
                 ],
               ),
             ),
-            //const SizedBox(height: 32),
           ],
         ),
       ),
