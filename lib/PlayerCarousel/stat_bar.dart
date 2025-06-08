@@ -36,7 +36,7 @@ class StatBar extends StatelessWidget {
             label,
             style: GoogleFonts.archivo(
               fontSize: 16,
-              color: Color(0xFF2A1C11),
+              color: const Color(0xFF2A1C11),
               fontWeight: FontWeight.w600,
             ),
             maxLines: 1,
@@ -73,16 +73,24 @@ class StatBar extends StatelessWidget {
                       color: fillColor,
                       borderRadius: BorderRadius.circular(3),
                     ),
+                    onEnd: () {
+                      // setState nötig?
+                    },
                   ),
                 ),
                 Positioned(
+                  // Positioned außerhalb von AnimatedOpacity
                   right: 8,
-                  child: Text(
-                    value.toString(),
-                    style: GoogleFonts.archivo(
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
-                      color: Colors.white,
+                  child: AnimatedOpacity(
+                    opacity: animated ? 1.0 : 0.0,
+                    duration: animationDuration,
+                    child: Text(
+                      value.toString(),
+                      style: GoogleFonts.archivo(
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
