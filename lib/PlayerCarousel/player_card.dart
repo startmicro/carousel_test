@@ -5,10 +5,11 @@ import 'package:google_fonts/google_fonts.dart';
 class PlayerCard extends StatelessWidget {
   const PlayerCard({
     super.key,
-    required this.playerName, 
-    this.backgroundColor = const Color(0xFFC27318), 
+    required this.playerName,
+    this.backgroundColor = const Color(0xFFC27318),
     required this.imageProvider,
     required this.attributes,
+    required this.animateBars,
   });
 
   final Color backgroundColor;
@@ -19,7 +20,9 @@ class PlayerCard extends StatelessWidget {
   final String playerName;
   final ImageProvider imageProvider;
   final List<Map<String, dynamic>> attributes;
-  
+
+  final bool animateBars;
+
   @override
   Widget build(BuildContext context) {
     final cardDimension = MediaQuery.of(context).size.height * 0.8;
@@ -44,21 +47,23 @@ class PlayerCard extends StatelessWidget {
                       child: Transform(
                         alignment: Alignment.center,
                         transform: Matrix4.rotationZ(-0.05),
-                        child: Image(
-                          image: imageProvider
-                        ),
+                        child: Image(image: imageProvider),
                       ),
                     ),
                     //Spacer(),
                     Expanded(
                       child: Column(
                         children: [
-                          Text(
-                            playerName,
-                            style: GoogleFonts.luckiestGuy(
-                              fontSize: 34,
-                              //height: 1.1,
-                              color: Colors.white,
+                          FittedBox(
+                            child: Text(
+                              playerName,
+                              style: GoogleFonts.luckiestGuy(
+                                fontSize: 34,
+                                //height: 1.1,
+                                color: Colors.white,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           Padding(
@@ -68,8 +73,11 @@ class PlayerCard extends StatelessWidget {
                                 return Padding(
                                   padding: const EdgeInsets.only(bottom: 4.0),
                                   child: StatBar(
-                                    label: attribute['label'], // Name des Attributs
-                                    value: attribute['value'], // Wert des Attributs
+                                    label:
+                                        attribute['label'], // Name des Attributs
+                                    value:
+                                        attribute['value'], // Wert des Attributs
+                                    animated: animateBars,
                                   ),
                                 );
                               }).toList(),
@@ -82,14 +90,14 @@ class PlayerCard extends StatelessWidget {
                 ),
                 Expanded(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Image.asset("assets/images/weapon1_profile.png"),
                       Image.asset("assets/images/weapon2_profile.png"),
-                      Image.asset("assets/images/weapon3_profile.png")
+                      Image.asset("assets/images/weapon3_profile.png"),
                     ],
                   ),
-                ) 
+                ),
               ],
             ),
           ),
